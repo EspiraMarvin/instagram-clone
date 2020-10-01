@@ -6,6 +6,8 @@
   "author": "EspiraMarvin <espiramarvin@gmail.com>",
   "private": true,
   "scripts": {
+    "dev": "quasar dev",
+    "build": "quasar build",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -13,6 +15,8 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
+    "md-gum-polyfill": "^1.0.0",
+    "moment": "^2.29.0",
     "quasar": "^1.0.0"
   },
   "devDependencies": {
