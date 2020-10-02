@@ -22,8 +22,12 @@ npm run lint
 quasar build
 ```
 
-<img src="src/assets/Screenshot.png" alt="Instagram Clone" width="300px">
-<img src="src/assets/Screenshot-Camera.png" alt="Instagram Clone" width="300px">
+<div>
+<img src="src/assets/Screenshot.png" alt="Instagram Clone" style="width: 50%">
+<img src="src/assets/Screenshot-Camera.png" alt="Instagram Clone" style="width: 50%">
+
+</div>
+
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
