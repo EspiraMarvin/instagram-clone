@@ -23,6 +23,7 @@ quasar build
 ```
 
 <img src="src/assets/Screenshot.png" alt="Instagram Clone" width="300px">
+<img src="src/assets/Screenshot-Camera.png" alt="Instagram Clone" width="300px">
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
