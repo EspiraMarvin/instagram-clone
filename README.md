@@ -22,5 +22,7 @@ npm run lint
 quasar build
 ```
 
+<img src="src/assets/Screenshot.png" alt="Instagram Clone">
+  
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
