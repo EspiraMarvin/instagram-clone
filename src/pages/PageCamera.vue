@@ -30,7 +30,7 @@
         @input="captureImageFallback"
         accept="image/*"
         label="Choose an Image"
-        outlined\
+        outlined
       >
         <template v-slot:prepend>
           <q-icon name="eva-attach-outline" />
@@ -149,7 +149,7 @@ export default {
       }
 
       // write the ArrayBuffer to a blob, and you're done
-      var blob = new Blob([ab], { type: mimeString })
+      const blob = new Blob([ab], { type: mimeString })
       return blob
     },
     captureImageFallback (file) {
