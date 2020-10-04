@@ -52,4 +52,15 @@ app.get('/posts', (request, response) => {
   })
 })
 
+/*
+
+endpoint - createPosts
+
+*/
+
+app.post('/createPost', (request, response) => {
+  response.set('Access-Control-Allow-Origin', '*')
+  response.send(request.headers)
+})
+
 app.listen(process.env.PORT || 3000)

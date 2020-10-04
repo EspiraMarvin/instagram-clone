@@ -7,6 +7,10 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 
+const API_LOCAL = 'http://localhost:3000'
+// eslint-disable-next-line no-unused-vars
+const API_PRODUCTION = 'https://qgram-backend.herokuapp.com'
+
 module.exports = function (/* ctx */) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
@@ -44,6 +48,10 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      env: {
+        // API: 'http:localhost:3000'
+        API: API_LOCAL // API_LOCAL | API_PRODUCTION
+      },
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
       // transpile: false,
