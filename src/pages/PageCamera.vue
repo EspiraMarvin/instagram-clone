@@ -19,6 +19,7 @@
       <q-btn
         v-if="hasCameraSupport"
         @click="captureImage"
+        :disable="imageCaptured"
         round
         color="grey-10"
         icon="eva-camera"
@@ -40,7 +41,7 @@
       <div class="row justify-center q-ma-md">
         <q-input
           v-model="post.caption"
-          label="Caption"
+          label="Caption *"
           class="col col-sm-6"
           dense
         />
@@ -68,6 +69,7 @@
       <div class="row justify-center q-mt-lg">
         <q-btn
           @click="addPost"
+          :disable="!post.caption || !post.photo"
           unelevated
           rounded
           color="primary"
@@ -210,7 +212,8 @@ export default {
       this.locationLoading = false
     },
     addPost () {
-      console.log('add post')
+      this.$q.loading.show()
+      // console.log('add post')
       const formData = new FormData()
       formData.append('id', this.post.id)
       formData.append('caption', this.post.caption)
@@ -221,14 +224,27 @@ export default {
       this.$axios.post(`${process.env.API}/createPost`, formData)
         .then(response => {
           console.log(response)
+          this.$router.push('/')
+          this.$q.notify({
+            message: 'Post Created.',
+            actions: [
+              { label: 'Dismiss', color: 'white' }
+            ]
+          })
+          this.$q.loading.hide()
         }).catch(error => {
           console.log(error)
+          this.$q.dialog({
+            title: 'Error',
+            message: 'Sorry  Could Not Create Post'
+          })
+          this.$q.loading.hide()
         })
     }
   },
   mounted () {
     this.initCamera()
-    console.log('navigator', navigator)
+    // console.log('navigator', navigator)
   },
   beforeDestroy () {
     if (this.hasCameraSupport) {

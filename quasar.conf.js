@@ -50,7 +50,7 @@ module.exports = function (/* ctx */) {
     build: {
       env: {
         // API: 'http:localhost:3000'
-        API: API_LOCAL // API_LOCAL | API_PRODUCTION
+        API: API_PRODUCTION // API_LOCAL | API_PRODUCTION
       },
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
@@ -108,7 +108,9 @@ module.exports = function (/* ctx */) {
 
       // Quasar plugins
       plugins: [
-        'Dialog'
+        'Loading',
+        'Dialog',
+        'Notify'
       ]
     },
 

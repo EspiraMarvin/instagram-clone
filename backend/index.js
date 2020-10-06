@@ -7,8 +7,10 @@
     (heroku plugins:install heroku-builds) from heroku builds
  */
 const express = require('express')
-
 const admin = require('firebase-admin')
+// const inspect = require('util').inspect
+const Busboy = require('busboy')
+const UUID = require('uuid-v4')
 
 /*
         config -firebase section
@@ -17,10 +19,16 @@ const admin = require('firebase-admin')
 const serviceAccount = require('./serviceAccountKey.json')
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'quasargram-96646.appspot.com'
 })
 
 const db = admin.firestore()
+const bucket = admin.storage().bucket()
+const path = require('path')
+const os = require('os')
+// fs - fileserver
+const fs = require('fs')
 
 /*
 
@@ -60,7 +68,57 @@ endpoint - createPosts
 
 app.post('/createPost', (request, response) => {
   response.set('Access-Control-Allow-Origin', '*')
-  response.send(request.headers)
+
+  const uuid = UUID()
+
+  const busboy = new Busboy({ headers: request.headers })
+  const fields = {}
+  let fileData = {}
+
+  busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+    // temp/image.png - writing file to temp folder
+    const filepath = path.join(os.tmpdir(), filename)
+    file.pipe(fs.createWriteStream(filepath))
+    fileData = { filepath, mimetype }
+  })
+  busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+    // console.log('Field [' + fieldname + ']: value: ' + inspect(val))
+    fields[fieldname] = val
+  })
+  busboy.on('finish', function () {
+    // upload image - there's one metadata object for the upload and another for the file
+    bucket.upload(
+      fileData.filepath,
+      {
+        uploadType: 'media',
+        metadata: {
+          metadata: {
+            contentType: fileData.mimetype,
+            firebaseStorageDownloadTokens: uuid
+          }
+        }
+      },
+      (err, uploadedFile) => {
+        if (!err) {
+          createDocument(uploadedFile)
+        }
+      }
+    )
+
+    function createDocument (uploadedFile) {
+      db.collection('posts').doc(fields.id).set({
+        id: fields.id,
+        caption: fields.caption,
+        location: fields.location,
+        date: parseInt(fields.date),
+        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${uploadedFile.name}?alt=media&token=${uuid}`
+      }).then(() => {
+        response.send('Post Added: ' + fields.id)
+      }).catch(err => console.log(err))
+    }
+    response.send('Done passing form!')
+  })
+  request.pipe(busboy)
 })
 
 app.listen(process.env.PORT || 3000)
