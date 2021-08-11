@@ -19,7 +19,7 @@
           spaced
         />
         <q-toolbar-title class="text-grand-hotel text-bold">
-          QuasaGram
+          QuasarGram
         </q-toolbar-title>
         <q-btn
           icon="eva-home-outline"
